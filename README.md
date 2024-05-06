@@ -1,2 +1,2 @@
 # JS
-Repo for JS Concepts and Projects
+Repo for JS Concepts and Projects!
