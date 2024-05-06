@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debouncing</title>
+    <style>
+      .table {
+        margin-top: 10px;
+        border: 1px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div>
+        <input
+          type="search"
+          placeholder="Search"
+          oninput="debounceSearch(this)"
+        />
+      </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Login</th>
+              <th>Avatar</th>
+            </tr>
+          </thead>
+          <tbody id="userList"></tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      let timeOut;
+      function debounceSearch(e) {
+        clearTimeout(timeOut);
+
+        timeOut = setTimeout(() => {
+          getUsers(e.value);
+        }, 2000);
+      }
+
+      function getUsers(searchVal = "") {
+        // API endpoint
+        let apiUrl = "https://api.github.com/users";
+
+        if (searchVal !== "") {
+          apiUrl = `https://api.github.com/search/users?q=${searchVal}`;
+        }
+
+        // call api for get users
+        const response = fetch(apiUrl);
+
+        // resolved promise
+        response
+          .then((users) => {
+            // convert users data into json
+            return users.json();
+          })
+          .then((data) => {
+            let userListHtml = "";
+
+            if (searchVal === "") {
+              data.forEach(({ id, login, avatar_url }) => {
+                userListHtml += `<tr key="${id}"><td>${id}</td><td>${login}</td><td><img src="${avatar_url}" width="50" /></td></tr>`;
+              });
+            } else {
+              const users = data.items || [];
+
+              users.forEach(({ id, login, avatar_url }) => {
+                userListHtml += `<tr key="${id}"><td>${id}</td><td>${login}</td><td><img src="${avatar_url}" width="50" /></td></tr>`;
+              });
+            }
+
+            document.getElementById("userList").innerHTML = userListHtml;
+          })
+          .catch((error) => {
+            console.error("Error while calling get users api error:", error);
+          });
+      }
+      getUsers();
+    </script>
+  </body>
+</html>
