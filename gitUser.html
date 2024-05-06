@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub User Search</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      .user-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .user-item img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>GitHub User Search</h1>
+      <form id="search-form">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search GitHub users..."
+          onchange="getUsers()"
+        />
+      </form>
+      <ul id="user-list">
+        <!-- User items will be dynamically added here -->
+      </ul>
+    </div>
+
+    <script>
+      const getUsers = () => {
+
+        let apiUrl = "https://api.github.com/users";
+
+        fetch(apiUrl)
+          .then((result) => {
+            return result.json();
+          })
+          .then((data) => {
+            let userListHtml = "";
+            data.forEach((element) => {
+              userListHtml += `<li class="user-item"> <img src="${element.avatar_url}"/> <a href="${element.html_url}" target="_blank">${element.login}</a></li>`;
+            });
+            document.getElementById("user-list").innerHTML = userListHtml;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      getUsers("");
+    </script>
+  </body>
+</html>
