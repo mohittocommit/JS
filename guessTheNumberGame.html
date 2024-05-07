@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .guess-input {
+      width: 100px;
+      margin-right: 10px;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Guess the Number Game</h2>
+  <p>Guess a number between 1 and 10:</p>
+  <input type="number" class="guess-input" onchange="checkInputNumber(event)">
+</div>
+
+<script>
+  var generatedRandomNumber = Math.floor(Math.random() * 10) + 1;
+  var attempts = 1;
+  function checkInputNumber(event) {
+    if(attempts === 3){
+      // I was unable to print generatedRandomNumber here without template literals why
+      alert(`Sorry, you've run out of guesses. Try after sometime The correct number was ${generatedRandomNumber}`)
+      window.location.reload();
+      return;
+    }
+    if(generatedRandomNumber == event.target.value) {
+      alert("Congratulations! You guessed the number correctly")
+    }else {
+      if(generatedRandomNumber < event.target.value) {
+        alert("Random number is less than the given number")
+      } else {
+        alert("Random number is more than the given number")
+      }
+    }
+    attempts++;
+  }
+</script>
+
+</body>
+</html>
