@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .input-container {
+        margin-bottom: 20px;
+      }
+
+      .input-container input {
+        width: calc(100% - 80px);
+        padding: 10px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 6px 18px;
+        margin: 10px 0;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      .todo-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #d9d9d944;
+        padding: 15px;
+        border-radius: 6px;
+      }
+
+      .todo-item input[type="checkbox"] {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+      <div class="input-container">
+        <input type="text" id="todoInput" placeholder="Add new to-do" />
+        <button onclick="addTodo()">Add</button>
+      </div>
+      <ul id="todoList">
+        <!-- To-do items will be dynamically added here -->
+      </ul>
+    </div>
+
+    <script>
+        const toDoItemList = [];
+        const addTodo = () => {
+            const toDoItem = document.getElementById("todoInput").value;
+            toDoItemList.push(toDoItem)
+            document.getElementById("todoInput").value = "";
+            renderTodo();
+        }
+        const renderTodo = () => {
+            let todoItemElement = "";
+            toDoItemList.forEach((element, index) => {
+                todoItemElement += `<li class="todo-item">${index+1}.  ${element} <button onclick="deleteTodo(${index})">Delete</button></li>`;
+            });
+            document.getElementById("todoList").innerHTML = todoItemElement;
+        }
+        const deleteTodo = (index) => {
+            toDoItemList.splice(index,1)
+            renderTodo();
+        }
+        
+    </script>
+  </body>
+</html>
